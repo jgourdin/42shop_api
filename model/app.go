@@ -81,11 +81,10 @@ func (a *App) getProducts(w http.ResponseWriter, r *http.Request) {
 
 	products, err := getProducts(a.DB, start, count)
 	if err != nil {
-		fmt.Println("I FAILED")
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-
+	fmt.Println("I WIN")
 	respondWithJSON(w, http.StatusOK, products)
 }
 
