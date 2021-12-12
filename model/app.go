@@ -154,6 +154,12 @@ func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/product/{id:[0-9]+}", a.getProduct).Methods("GET")
 	a.Router.HandleFunc("/product/{id:[0-9]+}", a.updateProduct).Methods("PUT")
 	a.Router.HandleFunc("/product/{id:[0-9]+}", a.deleteProduct).Methods("DELETE")
+
+	// a.Router.HandleFunc("/users", a.getUsers).Methods("GET")
+	// a.Router.HandleFunc("/user", a.createUser).Methods("POST")
+	// a.Router.HandleFunc("/user/{id:[0-9]+}", a.getUser).Methods("GET")
+	// a.Router.HandleFunc("/user/{id:[0-9]+}", a.updateUser).Methods("PUT")
+	// a.Router.HandleFunc("/user/{id:[0-9]+}", a.deleteUser).Methods("DELETE")
 }
 
 func (a *App) Run(addr string) {
