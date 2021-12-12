@@ -204,7 +204,7 @@ func (a *App) updateUser(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	p.ID = id
 
-	if err := p.updateProduct(a.DB); err != nil {
+	if err := p.updateUser(a.DB); err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
