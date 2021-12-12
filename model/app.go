@@ -79,6 +79,7 @@ func (a *App) getProducts(w http.ResponseWriter, r *http.Request) {
 		start = 0
 	}
 
+	fmt.Print("GET PRODUCT")
 	products, err := getProducts(a.DB, start, count)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
@@ -156,5 +157,5 @@ func (a *App) initializeRoutes() {
 }
 
 func (a *App) Run(addr string) {
-	log.Fatal(http.ListenAndServe(":8010", a.Router))
+	log.Fatal(http.ListenAndServe(":8081", a.Router))
 }

@@ -1,4 +1,4 @@
-module github.com/jgourdin/42shop_api.git
+module github.com/jgourdin/42shop_api
 
 go 1.17
 
