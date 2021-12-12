@@ -21,6 +21,7 @@ type user struct {
 	Password  string `json:"password"`
 	Mail      string `json:"mail"`
 	Commandes string `json:"commandes"`
+	Type      int    `json:"type"`
 }
 
 //Query Row return one Row, Query only one
@@ -67,7 +68,6 @@ func getProducts(db *sql.DB, start, count int) ([]product, error) {
 		}
 		products = append(products, p)
 	}
-	fmt.Println(products)
 	return products, nil
 }
 
@@ -78,13 +78,22 @@ Mail      string `json:"mail"`
 Commandes string `json:"commandes"`
 */
 
+func (p *user) login(db *sql.DB) error {
+	fmt.Println(p.Mail)
+	fmt.Println("WTF")
+	return db.QueryRow(
+		"SELECT name, password, mail, commandes FROM users WHERE (mail=$1 AND password=$2)",
+		p.Mail, p.Password).Scan(&p.Name, &p.Password, &p.Mail, &p.Commandes)
+}
+
 func (p *user) getUser(db *sql.DB) error {
-	return db.QueryRow("SELECT name, price FROM user WHERE id=$1",
+	return db.QueryRow("SELECT name, password, mail, commandes FROM user WHERE id=$1",
 		p.ID).Scan(&p.Name, &p.Password, &p.Mail, &p.Commandes)
 }
+
 func (p *user) updateUser(db *sql.DB) error {
 	_, err :=
-		db.Exec("UPDATE user SET name=$1, password=$2, mail=$3, commandes=$4, WHERE id=$4",
+		db.Exec("UPDATE users SET name=$1, password=$2, mail=$3, commandes=$4, WHERE id=$4",
 			p.Name, p.Password, p.Mail, p.Commandes, p.ID)
 	return err
 }
@@ -93,11 +102,9 @@ func (p *user) deleteUser(db *sql.DB) error {
 	return err
 }
 func (p *user) createUser(db *sql.DB) error {
-	fmt.Println("CREATE USER")
-	fmt.Println(p)
 	err := db.QueryRow(
-		"INSERT INTO user(name, password, mail, commandes) VALUES($1, $2, $3, $4, $5, $6) RETURNING id",
-		p.Name, p.Password, p.Mail, p.Commandes).Scan(&p.ID)
+		"INSERT INTO users(name, password, mail, commandes, type) VALUES($1, $2, $3, $4, $5) RETURNING id",
+		p.Name, p.Password, p.Mail, p.Commandes, 1).Scan(&p.ID)
 	if err != nil {
 		return err
 	}
@@ -108,7 +115,7 @@ func (p *user) createUser(db *sql.DB) error {
 
 func getUsers(db *sql.DB, start, count int) ([]user, error) {
 	rows, err := db.Query(
-		"SELECT id, name, password, mail, commandes, type FROM user LIMIT $1 OFFSET $2",
+		"SELECT id, name, password, mail, commandes, type FROM users LIMIT $1 OFFSET $2",
 		count, start)
 	if err != nil {
 		return nil, err

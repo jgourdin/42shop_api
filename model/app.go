@@ -80,6 +80,29 @@ func respondWithError(w http.ResponseWriter, code int, message string) {
 	respondWithJSON(w, code, map[string]string{"error": message})
 }
 
+func (a *App) login(w http.ResponseWriter, r *http.Request) {
+	var p user
+
+	fmt.Println(r.Body)
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&p); err != nil {
+		fmt.Println(p)
+		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+	defer r.Body.Close()
+	if err := p.login(a.DB); err != nil {
+		switch err {
+		case sql.ErrNoRows:
+			respondWithError(w, http.StatusNotFound, "User not found")
+		default:
+			respondWithError(w, http.StatusInternalServerError, err.Error())
+		}
+		return
+	}
+	respondWithJSON(w, http.StatusOK, p)
+}
+
 func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	response, _ := json.Marshal(payload)
 
@@ -147,8 +170,10 @@ func (a *App) createProduct(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) createUser(w http.ResponseWriter, r *http.Request) {
 	var p user
+
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&p); err != nil {
+		fmt.Println("ERROR1")
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
@@ -256,6 +281,7 @@ func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/users", a.getUsers).Methods("GET")
 	a.Router.HandleFunc("/user", a.createUser).Methods("POST")
 	a.Router.HandleFunc("/user/{id:[0-9]+}", a.getUser).Methods("GET")
+	a.Router.HandleFunc("/login", a.login).Methods("POST")
 	a.Router.HandleFunc("/user/{id:[0-9]+}", a.updateUser).Methods("PUT")
 	a.Router.HandleFunc("/user/{id:[0-9]+}", a.deleteUser).Methods("DELETE")
 }
