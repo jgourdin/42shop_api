@@ -52,7 +52,6 @@ func (a *App) getProduct(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	fmt.Println(p)
 	respondWithJSON(w, http.StatusOK, p)
 }
 
@@ -81,7 +80,6 @@ func (a *App) getProducts(w http.ResponseWriter, r *http.Request) {
 
 	products, err := getProducts(a.DB, start, count)
 	if err != nil {
-		fmt.Println("I FAILED")
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
