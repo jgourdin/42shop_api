@@ -65,6 +65,7 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Write(response)
 }
 
@@ -84,7 +85,6 @@ func (a *App) getProducts(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	fmt.Println("I WIN")
 	respondWithJSON(w, http.StatusOK, products)
 }
 
