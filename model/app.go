@@ -157,5 +157,5 @@ func (a *App) initializeRoutes() {
 }
 
 func (a *App) Run(addr string) {
-	log.Fatal(http.ListenAndServe(":8081", a.Router))
+	log.Fatal(http.ListenAndServe(":8001", a.Router))
 }
