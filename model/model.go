@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"fmt"
 )
 
 type product struct {
@@ -66,6 +67,7 @@ func getProducts(db *sql.DB, start, count int) ([]product, error) {
 		}
 		products = append(products, p)
 	}
+	fmt.Println(products)
 	return products, nil
 }
 
