@@ -93,6 +93,8 @@ func (p *user) deleteUser(db *sql.DB) error {
 	return err
 }
 func (p *user) createUser(db *sql.DB) error {
+	fmt.Println("CREATE USER")
+	fmt.Println(p)
 	err := db.QueryRow(
 		"INSERT INTO user(name, password, mail, commandes) VALUES($1, $2, $3, $4, $5, $6) RETURNING id",
 		p.Name, p.Password, p.Mail, p.Commandes).Scan(&p.ID)
