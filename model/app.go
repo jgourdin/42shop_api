@@ -52,7 +52,7 @@ func (a *App) getProduct(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-
+	fmt.Println(p)
 	respondWithJSON(w, http.StatusOK, p)
 }
 

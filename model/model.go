@@ -26,7 +26,6 @@ type user struct {
 //Query Row return one Row, Query only one
 
 func (p *product) getProduct(db *sql.DB) error {
-	fmt.Println((p.ID))
 	return db.QueryRow("SELECT name, price FROM products WHERE id=$1",
 		p.ID).Scan(&p.Name, &p.Price, &p.Description, &p.Stock, &p.Image, &p.Type)
 }
