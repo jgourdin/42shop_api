@@ -2,7 +2,6 @@ package model
 
 import (
 	"database/sql"
-	"fmt"
 )
 
 type product struct {
@@ -79,8 +78,6 @@ Commandes string `json:"commandes"`
 */
 
 func (p *user) login(db *sql.DB) error {
-	fmt.Println(p.Mail)
-	fmt.Println("WTF")
 	return db.QueryRow(
 		"SELECT name, password, mail, commandes FROM users WHERE (mail=$1 AND password=$2)",
 		p.Mail, p.Password).Scan(&p.Name, &p.Password, &p.Mail, &p.Commandes)

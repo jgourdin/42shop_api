@@ -83,10 +83,8 @@ func respondWithError(w http.ResponseWriter, code int, message string) {
 func (a *App) login(w http.ResponseWriter, r *http.Request) {
 	var p user
 
-	fmt.Println(r.Body)
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&p); err != nil {
-		fmt.Println(p)
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
@@ -173,7 +171,6 @@ func (a *App) createUser(w http.ResponseWriter, r *http.Request) {
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&p); err != nil {
-		fmt.Println("ERROR1")
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
