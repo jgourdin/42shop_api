@@ -4,7 +4,7 @@
 
 -Il faut avoir installer Go et Postgres sur son ordinateur.
 -Pour avoir Postgresql sur un container :
-````
+```
 docker run -d -p 5432:5432 --name my-postgres -e POSTGRES_PASSWORD=12345 postgres
 psql -h localhost -p 5432 -U postgres -W
 
@@ -29,4 +29,3 @@ Il ne faut pas oublier de creer les tables users et products avant de commencer 
 Si vous rencontrer une erreur etrange utiliser cette commande faute d'avoir une meilleure solution :
 
 open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security
-```
