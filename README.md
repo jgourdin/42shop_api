@@ -10,14 +10,15 @@ psql -h localhost -p 5432 -U postgres -W
 ```
 
 Ensuite il faut initialiser 3 variable d'environement
-````
+
+```
 export APP_DB_USERNAME=postgres
 export APP_DB_PASSWORD=12345
 export APP_DB_NAME=postgres​
 ```
 
 Pour lancer le serveur il faut rentrer deux commandes : 
-````
+```
 go run main.go // Pour lancer le serveur.
 go get github.com/jgourdin/42shop_api/model // a chaque changement.
 
